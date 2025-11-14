@@ -1,131 +1,108 @@
-# Flask React Project
 
-This is the starter for the Flask React project.
+```markdown
+#  CarSales App
 
-## Getting started
+A full-stack peer-to-peer car marketplace built with Flask, React (Vite), and PostgreSQL. Users can buy and sell vehicles directly — avoiding dealership fees and gaining transparency through mechanic-verified listings.
 
-1. Clone this repository (only this branch).
+**Live Site:** [https://carsales-4b09.onrender.com](https://carsales-4b09.onrender.com)
 
-2. Install dependencies.
+---
 
+##  Project Overview
+
+**CarSales** empowers individuals to buy and sell cars directly, without the overhead of dealership markups or hidden fees. The platform makes it easy to list vehicles, browse inventory, and connect with other users in a secure, user-friendly environment.
+
+To build trust and transparency, CarSales introduces a unique **“Verified by Mechanic”** feature: sellers can request a certified mechanic to inspect their vehicle and assign a verified badge to the listing. This ensures buyers know the car matches its description and is in reliable working condition.
+
+Whether you're looking to sell your car quickly or find a great deal without dealership pressure, CarSales puts the power back in your hands.
+
+---
+
+##  Tech Stack
+
+- **Frontend:** React + Vite, CSS Grid/Flexbox
+- **Backend:** Flask, SQLAlchemy, PostgreSQL
+- **Deployment:** Docker, Render.com
+- **Auth:** Multi-layered login/logout logic
+- **Dev Tools:** Git, VSCode, Postman, Flask CLI
+
+---
+
+##  Features
+
+- Peer-to-peer car listings with full CRUD
+- Secure user authentication and session management
+- Mechanic-verified badge system for trusted listings
+- Responsive UI with dynamic filtering
+- RESTful API integration
+- Seeded database with sample inventory
+
+---
+
+##  Future Roadmap
+
+Planned features to expand functionality and user trust:
+
+-  **Payment Integration** — enable secure transactions between buyers and sellers  
+-  **Mechanic Scheduling** — allow sellers to book inspections and receive verified status  
+-  **Messaging System** — facilitate direct communication between buyers and sellers  
+
+---
+
+## Getting Started
+
+### Backend Setup
+```bash
+cd app
+pipenv install
+flask db upgrade
+flask seed all
+flask run
+```
+
+### Frontend Setup
+```bash
+cd react-vite
+npm install
+npm run build
+```
+
+### Environment Variables
+Create a `.flaskenv` and `.env` file with:
+```
+FLASK_APP=app
+FLASK_ENV=development
+SCHEMA=car_sales_schema
+DATABASE_URL=your_postgres_url
+VITE_API_URL=http://localhost:5000
+```
+
+---
+
+## Deployment (Render.com)
+
+1. Build frontend:
    ```bash
-   pipenv install -r requirements.txt
+   cd react-vite
+   npm run build
    ```
+2. Push changes to GitHub
+3. Create a new Web Service on [Render.com](https://render.com)
+4. Set Runtime to **Docker**, Branch to `main`, and leave Root Directory blank
+5. Add environment variables:
+   - `SECRET_KEY`
+   - `FLASK_ENV=production`
+   - `FLASK_APP=app`
+   - `SCHEMA=car_sales_schema`
+   - `DATABASE_URL` (from Render Postgres)
 
-3. Create a __.env__ file based on the example with proper settings for your
-   development environment.
+Once deployed, your site will auto-update with each push to `main`.
 
-4. Make sure the SQLite3 database connection URL is in the __.env__ file.
+---
 
-5. This starter organizes all tables inside the `flask_schema` schema, defined
-   by the `SCHEMA` environment variable.  Replace the value for
-   `SCHEMA` with a unique name, **making sure you use the snake_case
-   convention.**
+## Author
 
-6. Get into your pipenv, migrate your database, seed your database, and run your
-   Flask app:
+**Laquisha Raye** — Full-stack Software Engineer  
+[LinkedIn](https://www.linkedin.com/in/laquisha-raye) | [GitHub](https://github.com/laquisha-ayee)
 
-   ```bash
-   pipenv shell
-   ```
 
-   ```bash
-   flask db upgrade
-   ```
-
-   ```bash
-   flask seed all
-   ```
-
-   ```bash
-   flask run
-   ```
-
-7. The React frontend has no styling applied. Copy the __.css__ files from your
-   Authenticate Me project into the corresponding locations in the
-   __react-vite__ folder to give your project a unique look.
-
-8. To run the React frontend in development, `cd` into the __react-vite__
-   directory and run `npm i` to install dependencies. Next, run `npm run build`
-   to create the `dist` folder. The starter has modified the `npm run build`
-   command to include the `--watch` flag. This flag will rebuild the __dist__
-   folder whenever you change your code, keeping the production version up to
-   date.
-
-## Deployment through Render.com
-
-First, recall that Vite is a development dependency, so it will not be used in
-production. This means that you must already have the __dist__ folder located in
-the root of your __react-vite__ folder when you push to GitHub. This __dist__
-folder contains your React code and all necessary dependencies minified and
-bundled into a smaller footprint, ready to be served from your Python API.
-
-Begin deployment by running `npm run build` in your __react-vite__ folder and
-pushing any changes to GitHub.
-
-Refer to your Render.com deployment articles for more detailed instructions
-about getting started with [Render.com], creating a production database, and
-deployment debugging tips.
-
-From the Render [Dashboard], click on the "New +" button in the navigation bar,
-and click on "Web Service" to create the application that will be deployed.
-
-Select that you want to "Build and deploy from a Git repository" and click
-"Next". On the next page, find the name of the application repo you want to
-deploy and click the "Connect" button to the right of the name.
-
-Now you need to fill out the form to configure your app. Most of the setup will
-be handled by the __Dockerfile__, but you do need to fill in a few fields.
-
-Start by giving your application a name.
-
-Make sure the Region is set to the location closest to you, the Branch is set to
-"main", and Runtime is set to "Docker". You can leave the Root Directory field
-blank. (By default, Render will run commands from the root directory.)
-
-Select "Free" as your Instance Type.
-
-### Add environment variables
-
-In the development environment, you have been securing your environment
-variables in a __.env__ file, which has been removed from source control (i.e.,
-the file is gitignored). In this step, you will need to input the keys and
-values for the environment variables you need for production into the Render
-GUI.
-
-Add the following keys and values in the Render GUI form:
-
-- SECRET_KEY (click "Generate" to generate a secure secret for production)
-- FLASK_ENV production
-- FLASK_APP app
-- SCHEMA (your unique schema name, in snake_case)
-
-In a new tab, navigate to your dashboard and click on your Postgres database
-instance.
-
-Add the following keys and values:
-
-- DATABASE_URL (copy value from the **External Database URL** field)
-
-**Note:** Add any other keys and values that may be present in your local
-__.env__ file. As you work to further develop your project, you may need to add
-more environment variables to your local __.env__ file. Make sure you add these
-environment variables to the Render GUI as well for the next deployment.
-
-### Deploy
-
-Now you are finally ready to deploy! Click "Create Web Service" to deploy your
-project. The deployment process will likely take about 10-15 minutes if
-everything works as expected. You can monitor the logs to see your Dockerfile
-commands being executed and any errors that occur.
-
-When deployment is complete, open your deployed site and check to see that you
-have successfully deployed your Flask application to Render! You can find the
-URL for your site just below the name of the Web Service at the top of the page.
-
-**Note:** By default, Render will set Auto-Deploy for your project to true. This
-setting will cause Render to re-deploy your application every time you push to
-main, always keeping it up to date.
-
-[Render.com]: https://render.com/
-[Dashboard]: https://dashboard.render.com/
