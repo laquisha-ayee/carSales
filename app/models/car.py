@@ -1,4 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from sqlalchemy.sql import func
 
 class Car(db.Model):
     __tablename__ = 'cars'
@@ -18,6 +19,9 @@ class Car(db.Model):
 
     verification = db.relationship('Verification', back_populates='car', uselist=False, cascade='all, delete-orphan')
 
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -26,5 +30,7 @@ class Car(db.Model):
             'year': self.year,
             'price': self.price,
             'description': self.description,
-            'owner_id': self.owner_id
+            'owner_id': self.owner_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
